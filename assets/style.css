@@ -1,0 +1,101 @@
+* {
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   box-sizing: border-box;
+   background-color: black;
+}
+
+#loader {
+   color: blue;
+   font-weight: bold;
+   padding: 10px;
+}
+
+#loader pre {
+   margin: 0 auto;
+   width: inherit;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 90vh;
+}
+
+#freedom_os {
+   position: relative;
+   background-color: #187C7E;
+   /* display: none; */
+}
+
+.freedom-header {
+   position: fixed;
+   top: 0;
+   height: 24px;
+   background-color: aliceblue;
+   border-bottom: 1px solid #000;
+   width: 100%;
+   padding: 0 5px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.freedom-header ul {
+   display: inherit;
+   list-style-type: none;
+}
+
+.freedom-header ul li {
+   margin: 0 5px;
+}
+
+.freedom-section {
+   /* background-image: url("./images/background_default.jpg"); */
+   background-position: center;
+   background-size: cover;
+   height: 100vh;
+}
+
+.window {
+   border: 1px solid #000;
+   -webkit-box-shadow: inset 1px 1px 0 0 #fff, 5px 5px 0 rgba(0, 0, 0, .2);
+   box-shadow: inset 1px 1px 0 0 #fff, 5px 5px 0 rgba(0, 0, 0, .2);
+   background: #effbfe;
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-orient: vertical;
+   -webkit-box-direction: normal;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   z-index: 1;
+   pointer-events: all;
+   -webkit-transition: background .01s ease-in-out;
+   transition: background .01s ease-in-out;
+   position: absolute;
+   top: 123px;
+   left: 333px;
+   /* z-index: auto; */
+   touch-action: none;
+   user-select: auto;
+   background: rgb(236, 251, 254);
+   width: 400px;
+   height: 400px;
+}
+
+.window-header {
+   touch-action: pan-y;
+   align-items: center;
+   padding: 5px;
+   height: 21px;
+   cursor: grab;
+   display: flex;
+   user-select: none;
+}
+
+.window-content {
+   height: inherit;
+   width: inherit;
+}
