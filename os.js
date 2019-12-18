@@ -17,7 +17,7 @@ const apps = [
 ];
 
 function freedomos() {
-  let clock = setInterval(() => {
+  const clock = setInterval(() => {
     updateClock();
   }, 1000);
 
@@ -32,29 +32,24 @@ function freedomos() {
 
 function darkos() {}
 
-let container = document.querySelector("#container");
-let section = document.getElementsByClassName("window-content");
 let activeItem = null;
 let active = false;
-
 // render item apps to dom
 apps.map(({ title, styles }, index) => {
   container.insertAdjacentHTML(
     "beforeend",
     `
     <div class="window ${styles}" id="${title + (index + 1)}">
-      <div class="window-wrapper">
         <div class="window-header">
           ${title}
+          <ul class="window-header__strip">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
         </div>
-        <ul class="window-header__strip">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
       <div class="window-content"></div>
-      </div>
     </div>`
   );
 });
@@ -67,10 +62,15 @@ container.addEventListener("mousedown", dragStart, false);
 container.addEventListener("mouseup", dragEnd, false);
 container.addEventListener("mousemove", drag, false);
 
+const strip = document.getElementsByClassName("window-header__strip");
+
 function dragStart(e) {
-  if (e.target.className === "window-header") {
+  if (
+    e.target.className.includes("window-header") ||
+    e.target.localName.includes("li")
+  ) {
     active = true;
-    activeItem = e.target.offsetParent.parentNode;
+    activeItem = e.target.offsetParent;
     if (activeItem !== null) {
       if (!activeItem.xOffset) {
         activeItem.xOffset = 0;
