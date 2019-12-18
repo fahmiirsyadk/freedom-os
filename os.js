@@ -43,8 +43,18 @@ apps.map(({ title, styles }, index) => {
     "beforeend",
     `
     <div class="window ${styles}" id="${title + (index + 1)}">
-      <div class="window-header">${title}</div>
+      <div class="window-wrapper">
+        <div class="window-header">
+          ${title}
+        </div>
+        <ul class="window-header__strip">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
       <div class="window-content"></div>
+      </div>
     </div>`
   );
 });
@@ -58,10 +68,9 @@ container.addEventListener("mouseup", dragEnd, false);
 container.addEventListener("mousemove", drag, false);
 
 function dragStart(e) {
-  if (e.target !== e.currentTarget && e.target !== section[0]) {
+  if (e.target.className === "window-header") {
     active = true;
-    activeItem =
-      e.target.parentNode !== container ? e.target.parentNode : e.target;
+    activeItem = e.target.offsetParent.parentNode;
     if (activeItem !== null) {
       if (!activeItem.xOffset) {
         activeItem.xOffset = 0;
