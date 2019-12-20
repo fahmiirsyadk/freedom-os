@@ -3,25 +3,25 @@
 const elOs = document.getElementById("os");
 const elClock = document.getElementById("clock");
 const headerTitle = document.getElementById("header-title");
+const elDock = document.getElementById("dock");
 
 let zIndex = 1;
 
 const aboutContent = `
-<div class="about-header">
-  <div>
-    <h1>Freedom OS</h1>
-    <p>Version 1.0 - Carbon Dioxida</p>
-    <span>Photo by Birmingham Museums Trust on Unsplash</p>
+  <div class="about-header">
+    <div>
+      <h1>Freedom OS</h1>
+      <p>Version 1.0 - Carbon Dioxida</p>
+      <span>Photo by Birmingham Museums Trust on Unsplash</p>
+    </div>
   </div>
-</div>
-<div class="about-content">
-  <p><b>Freedom OS</b> is a super secure operating system, we ensure all of the user is safe and secure. Proudly presented by 3vil Company.</p>
-  <br />
-  <p>If you really interested about the source: 
-    <a href="#">Github</a>.
-  </p>
-
-</div>
+  <div class="about-content">
+    <p><b>Freedom OS</b> is a super secure operating system, we ensure all of the user is safe and secure. Proudly presented by 3vil Company.</p>
+    <br />
+    <p>If you really interested about the source: 
+      <a href="#">Github</a>.
+    </p>
+  </div>
 `;
 
 const apps = [
@@ -60,15 +60,19 @@ function freedomos() {
 
 let activeItem = null;
 let active = false;
+const activeApps = [];
 
-// render item apps to dom
 apps
   .filter(({ opened }) => opened === true)
   .map(({ title, styles, content }) => {
+    elDock.insertAdjacentHTML(
+      "beforeend",
+      `<div class="dock__item" onclick="toggleWindow('${title}')">${title}</div>`
+    );
     container.insertAdjacentHTML(
       "beforeend",
       `
-      <div class="window" style="${styles}" id="${title}">
+      <div class="window" style="${styles}display: flex;" id="${title}">
           <div class="window-header">
             <button onclick="closeWindow(event)">X</button>
             <button onclick="minimizeWindow(event)">_</button>
@@ -104,11 +108,16 @@ function minimizeWindow(e) {
   e.target.offsetParent.style.display = "none";
 }
 
+function toggleWindow(title) {
+  document.getElementById(title).style.display = "flex";
+}
+
 function dragStart(e) {
   activeItem = e.target.offsetParent;
 
   // layer overlay
   activeItem.style.zIndex = zIndex;
+  elDock.style.zIndex = zIndex;
   zIndex += 1;
 
   // change text title on navbar to name of app

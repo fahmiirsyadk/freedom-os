@@ -125,6 +125,25 @@ body {
    border-radius: 3px;
 }
 
+#dock {
+   padding: 10px 15px;
+   border: 1px solid black;
+   border-bottom: none;
+   border-top-left-radius: 3px;
+   border-top-right-radius: 3px;
+   position: fixed;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 0);
+   background-color: rgb(236, 251, 254);
+   z-index: 2;
+   box-shadow: inset 1px 1px 0 0 #fff, 5px 5px 0 rgba(0, 0, 0, .2);
+}
+
+.dock__item {
+   cursor: pointer;
+}
+
 .about-header {
    background-image: url("./images/cover.jpg");
    background-size: cover;
