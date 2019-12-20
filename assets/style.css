@@ -96,6 +96,14 @@ body {
    user-select: none;
 }
 
+.window-header button {
+   border: 1px solid black;
+   padding: 0 5px;
+   margin: 2px;
+   background-color: #effbfe;
+   cursor: pointer;
+}
+
 .window-header__strip {
    -webkit-box-flex: 1;
    -ms-flex: 1;
@@ -110,12 +118,15 @@ body {
 }
 
 .window-content {
-   height: inherit;
+   height: 100%;
    padding: 10px;
+   margin: 10px;
+   border: 1px solid #717171;
+   border-radius: 3px;
 }
 
 .about-header {
-   background-image: url("./images/background_default.jpg");
+   background-image: url("./images/cover.jpg");
    background-size: cover;
    border-radius: 3px;
    height: 100px;
@@ -123,9 +134,17 @@ body {
    justify-content: center;
    align-items: center;
    text-align: center;
-   /* color: white; */
+   color: white;
 }
 
 .about-header p {
    font-weight: bold;
+}
+
+.about-header span {
+   font-size: x-small;
+}
+
+.about-content {
+   padding: 10px 0;
 }
