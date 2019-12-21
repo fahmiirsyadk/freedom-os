@@ -1,6 +1,7 @@
 "use strict";
 
 const elOs = document.getElementById("os");
+const elOsContainer = document.getElementById("container");
 const elClock = document.getElementById("clock");
 const headerTitle = document.getElementById("header-title");
 const elDock = document.getElementById("dock");
@@ -39,7 +40,7 @@ const apps = [
   },
   {
     title: "Youtube",
-    styles: "width: 560px; height: 342.5px;",
+    styles: " width: 605px; height: 389.5px;",
     opened: false,
     content: `<iframe width="560" height="315" src="https://www.youtube.com/embed/Z6kNQEzQJpA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
   }
@@ -62,33 +63,41 @@ let activeItem = null;
 let active = false;
 const activeApps = [];
 
+function generateWindowApp(title, styles, content) {
+  container.insertAdjacentHTML(
+    "beforeend",
+    `
+    <div class="window" style="${styles}display: flex;" id="${title}">
+        <div class="window-header">
+          <button onclick="closeWindow(event)">X</button>
+          <button onclick="minimizeWindow(event)">_</button>
+          <ul class="window-header__strip">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <h4>${title}</h4>
+        </div>
+      <div class="window-content">
+        ${content}
+      </div>
+    </div>`
+  );
+}
+
+function generateDockItem(title) {
+  elDock.insertAdjacentHTML(
+    "beforeend",
+    `<div id="${title}-dock" class="dock__item" onclick="toggleWindow('${title}')">${title}</div>`
+  );
+}
+
 apps
   .filter(({ opened }) => opened === true)
   .map(({ title, styles, content }) => {
-    elDock.insertAdjacentHTML(
-      "beforeend",
-      `<div class="dock__item" onclick="toggleWindow('${title}')">${title}</div>`
-    );
-    container.insertAdjacentHTML(
-      "beforeend",
-      `
-      <div class="window" style="${styles}display: flex;" id="${title}">
-          <div class="window-header">
-            <button onclick="closeWindow(event)">X</button>
-            <button onclick="minimizeWindow(event)">_</button>
-            <ul class="window-header__strip">
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-            <h4>${title}</h4>
-          </div>
-        <div class="window-content">
-          ${content}
-        </div>
-      </div>`
-    );
+    generateDockItem(title);
+    generateWindowApp(title, styles, content);
   });
 
 container.addEventListener("touchstart", dragStart, false);
@@ -99,8 +108,18 @@ container.addEventListener("mousedown", dragStart, false);
 container.addEventListener("mouseup", dragEnd, false);
 container.addEventListener("mousemove", drag, false);
 
+const selectApp = target => apps.filter(app => app.title === target);
+
+function startApp(target) {
+  let { title, styles, content } = selectApp(target)[0];
+  generateWindowApp(title, styles, content);
+  generateDockItem(title);
+}
+
 function closeWindow(e) {
   let node = e.target.offsetParent;
+  let dockItem = document.getElementById(`${node.id}-dock`);
+  elDock.removeChild(dockItem);
   node.parentNode.removeChild(node);
 }
 
@@ -109,24 +128,37 @@ function minimizeWindow(e) {
 }
 
 function toggleWindow(title) {
-  document.getElementById(title).style.display = "flex";
+  let el = document.getElementById(title);
+  if (el) {
+    el.style.display = "flex";
+  } else {
+    startApp(title);
+  }
+}
+
+function changeNavbarMenu(activeItem) {
+  headerTitle.textContent =
+    activeItem.id === "freedom_os" ? "Freedom OS" : activeItem.id;
 }
 
 function dragStart(e) {
   activeItem = e.target.offsetParent;
 
   // layer overlay
-  activeItem.style.zIndex = zIndex;
-  elDock.style.zIndex = zIndex;
-  zIndex += 1;
-
-  // change text title on navbar to name of app
-  headerTitle.textContent =
-    activeItem.id === "freedom_os" ? "Freedom OS" : activeItem.id;
+  if (e.target.className !== "desktop-item") {
+    activeItem.style.zIndex = zIndex;
+    elDock.style.zIndex = zIndex;
+    zIndex += 1;
+    // change text title on navbar to name of app
+    changeNavbarMenu(activeItem);
+  } else {
+    activeItem = e.target;
+  }
 
   if (
     e.target.className.includes("window-header") ||
-    e.target.localName.includes("li")
+    e.target.localName.includes("li") ||
+    e.target.className.includes("desktop-item")
   ) {
     active = true;
     if (activeItem !== null) {
@@ -181,5 +213,20 @@ function drag(e) {
 function setTranslate(xPos, yPos, el) {
   el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 }
+
+// draw dektop icons
+let lastItemPos = 20;
+
+apps.map(({ title }) => {
+  elOsContainer.insertAdjacentHTML(
+    "beforeend",
+    `
+    <div ondblclick="toggleWindow('${title}')" style="top: 20px; right: ${lastItemPos}px; " class="desktop-item">
+      ${title}
+    </div>
+  `
+  );
+  lastItemPos += 80;
+});
 
 function darkos() {}

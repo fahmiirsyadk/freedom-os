@@ -125,6 +125,20 @@ body {
    border-radius: 3px;
 }
 
+.desktop-item {
+   width: 50px;
+   height: 50px;
+   position: absolute;
+   background-color: red;
+   user-select: none;
+   cursor: pointer;
+   box-shadow: inset 1px 1px 0 0 transparent, 5px 5px 0 rgba(0, 0, 0, .2);
+}
+
+.desktop-item:active {
+   cursor: grab;
+}
+
 #dock {
    padding: 10px 15px;
    border: 1px solid black;
@@ -137,11 +151,13 @@ body {
    transform: translate(-50%, 0);
    background-color: rgb(236, 251, 254);
    z-index: 2;
+   display: flex;
    box-shadow: inset 1px 1px 0 0 #fff, 5px 5px 0 rgba(0, 0, 0, .2);
 }
 
 .dock__item {
    cursor: pointer;
+   margin: 0 5px;
 }
 
 .about-header {
