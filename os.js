@@ -42,7 +42,7 @@ const apps = [
     title: "Youtube",
     styles: " width: 605px; height: 389.5px;",
     opened: false,
-    content: `<iframe width="560" height="315" src="https://www.youtube.com/embed/Z6kNQEzQJpA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+    content: `<iframe width="560" height="315" src="https://www.youtube.com/embed/n-wEvzqdDZg?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
   }
 ];
 
@@ -55,7 +55,8 @@ function freedomos() {
     const time = new Date();
     const hours = time.getHours();
     const minutes = time.getMinutes();
-    elClock.textContent = `${hours}:${minutes}`;
+    const pad = num => ("0" + num).slice(-2);
+    elClock.textContent = `${pad(hours)}:${pad(minutes)}`;
   }
 }
 
@@ -145,14 +146,17 @@ function dragStart(e) {
   activeItem = e.target.offsetParent;
 
   // layer overlay
+  // check if target element it want to drag is dektop item or not
   if (e.target.className !== "desktop-item") {
+    zIndex += 1;
     activeItem.style.zIndex = zIndex;
     elDock.style.zIndex = zIndex;
-    zIndex += 1;
+
     // change text title on navbar to name of app
     changeNavbarMenu(activeItem);
   } else {
     activeItem = e.target;
+    activeItem.style.zIndex = zIndex;
   }
 
   if (

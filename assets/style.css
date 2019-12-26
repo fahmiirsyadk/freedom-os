@@ -136,7 +136,7 @@ body {
 }
 
 .desktop-item:active {
-   cursor: grab;
+   cursor: grabbing;
 }
 
 #dock {
@@ -170,6 +170,7 @@ body {
    align-items: center;
    text-align: center;
    color: white;
+   user-select: none;
 }
 
 .about-header p {
