@@ -5,6 +5,7 @@ const elOsContainer = document.getElementById("container");
 const elClock = document.getElementById("clock");
 const headerTitle = document.getElementById("header-title");
 const elDock = document.getElementById("dock");
+let requestClock;
 
 let zIndex = 1;
 
@@ -46,18 +47,21 @@ const apps = [
   }
 ];
 
-function freedomos() {
-  const clock = setInterval(() => {
-    updateClock();
-  }, 1000);
+function updateClock() {
+  const time = new Date();
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
+  const pad = num => ("0" + num).slice(-2);
+  elClock.textContent = `${pad(hours)}:${pad(minutes)}`;
+}
 
-  function updateClock() {
-    const time = new Date();
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
-    const pad = num => ("0" + num).slice(-2);
-    elClock.textContent = `${pad(hours)}:${pad(minutes)}`;
-  }
+const clockAnimate = () => {
+  updateClock();
+  requestClock = requestAnimationFrame(clockAnimate);
+};
+
+function freedomos() {
+  clockAnimate();
 }
 
 let activeItem = null;
